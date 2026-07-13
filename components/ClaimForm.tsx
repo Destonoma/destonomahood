@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { generatePass } from "@/lib/generatePass";
+import { createClaim } from "@/lib/claim";
 
 type ClaimFormProps = {
   setPassData: (data: {
@@ -225,34 +226,45 @@ export default function ClaimForm({
         </button>
 
         <button
-          disabled={!wallet}
-          onClick={async () => {
+  disabled={!wallet}
+  onClick={async () => {
+    try {
+      const claim = await createClaim({
+        name,
+        twitter_username: x,
+        telegram,
+        wallet,
+      });
 
-            setPassData({
-              name,
-              x,
-              telegram,
-              wallet,
-            });
+      setPassData({
+        name,
+        x,
+        telegram,
+        wallet,
+      });
 
-            const image = await generatePass({
-              name,
-              x,
-              wallet,
-              passNumber: "#000001",
-            });
+      const passNumber = `DTM-${String(claim.pass_number).padStart(6, "0")}`;
 
-            setPassImage(image);
+      const image = await generatePass({
+        name,
+        x,
+        wallet,
+        passNumber,
+      });
 
-          }}
-          className={`px-8 py-4 rounded-xl font-bold ${
-            wallet
-              ? "bg-lime-400 text-black"
-              : "bg-zinc-700 text-gray-500 cursor-not-allowed"
-          }`}
-        >
-          🚀 Generate Genesis Pass
-        </button>
+      setPassImage(image);
+    } catch (err: any) {
+      alert(err.message || "Claim gagal");
+    }
+  }}
+  className={`px-8 py-4 rounded-xl font-bold ${
+    wallet
+      ? "bg-lime-400 text-black"
+      : "bg-zinc-700 text-gray-500 cursor-not-allowed"
+  }`}
+>
+  🚀 Generate Genesis Pass
+</button>
 
       </div>
 
