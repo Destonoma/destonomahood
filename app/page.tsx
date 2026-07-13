@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Countdown from "@/components/Countdown";
 import Tasks from "@/components/Tasks";
+import Roadmap from "@/components/Roadmap";
 import ClaimForm from "@/components/ClaimForm";
 import Footer from "@/components/Footer";
 
@@ -30,7 +31,9 @@ export default function Home() {
 
       <Tasks />
 
-      <ClaimForm
+<Roadmap />
+
+<ClaimForm
         setPassData={setPassData}
         setPassImage={setPassImage}
       />
