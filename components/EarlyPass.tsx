@@ -11,11 +11,13 @@ export default function EarlyPass({ data }: EarlyPassProps) {
   const shareText = encodeURIComponent(
 `🚀 Just claimed my Destonoma Hood Early Supporter Pass!
 
-Building on Robinhood Chain.
+Join the Early Supporter Campaign.
 
 🐦 @DestonomaHood
-📢 https://t.me/destonomaHood`
-  );
+📢 https://t.me/destonomaHood
+
+👇`
+);
 
   const shareUrl = encodeURIComponent(
     "https://destonomahood.vercel.app"
