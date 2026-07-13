@@ -14,10 +14,8 @@ export default function EarlyPass({ data }: EarlyPassProps) {
 Join the Early Supporter Campaign.
 
 🐦 @DestonomaHood
-📢 https://t.me/destonomaHood
-
-👇`
-);
+📢 https://t.me/destonomaHood`
+  );
 
   const shareUrl = encodeURIComponent(
     "https://destonomahood.vercel.app"
@@ -31,7 +29,6 @@ Join the Early Supporter Campaign.
         <div className="flex items-center justify-between">
 
           <div>
-
             <span className="uppercase tracking-[4px] text-lime-400">
               Early Supporter Pass
             </span>
@@ -39,7 +36,6 @@ Join the Early Supporter Campaign.
             <h2 className="text-6xl font-black mt-4 text-lime-400">
               #000001
             </h2>
-
           </div>
 
           <div className="border border-lime-400 px-5 py-2 rounded-full text-lime-400 font-bold">
@@ -93,16 +89,14 @@ Join the Early Supporter Campaign.
 
         </div>
 
-        <div className="mt-10 flex flex-wrap gap-4">
+        <div className="mt-10 flex gap-4 flex-wrap">
 
-          <button
-            className="bg-lime-400 text-black px-8 py-4 rounded-xl font-bold hover:scale-105 transition"
-          >
+          <button className="bg-lime-400 text-black px-8 py-4 rounded-xl font-bold hover:scale-105 transition">
             Download Pass
           </button>
 
           <a
-            href={`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`}
+            href={`https://x.com/intent/post?text=${shareText}&url=${shareUrl}`}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-white text-black px-8 py-4 rounded-xl font-bold hover:scale-105 transition"
