@@ -1,5 +1,8 @@
 "use client";
 
+import { useRef } from "react";
+import html2canvas from "html2canvas";
+
 type EarlyPassProps = {
   data: {
     name: string;
@@ -10,6 +13,22 @@ type EarlyPassProps = {
 };
 
 export default function EarlyPass({ data }: EarlyPassProps) {
+  const passRef = useRef<HTMLDivElement>(null);
+
+const downloadPass = async () => {
+  if (!passRef.current) return;
+
+  const canvas = await html2canvas(passRef.current, {
+    scale: 3,
+    backgroundColor: null,
+    useCORS: true,
+  });
+
+  const link = document.createElement("a");
+  link.download = "DestonomaHood-EarlyPass.png";
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+};
   const shareText = encodeURIComponent(`🚀 Early Supporter Pass claimed.
 
 Building the future of Robinhood Chain.
@@ -23,7 +42,10 @@ Building the future of Robinhood Chain.
 
   return (
     <section className="max-w-7xl mx-auto px-8 pb-24">
-      <div className="rounded-3xl border border-lime-500/20 bg-gradient-to-br from-zinc-900 to-black p-10">
+      <div
+  ref={passRef}
+  className="rounded-3xl border border-lime-500/20 bg-gradient-to-br from-zinc-900 to-black p-10"
+>
 
         <div className="flex items-center justify-between">
           <div>
@@ -86,9 +108,12 @@ Building the future of Robinhood Chain.
 
         <div className="mt-10 flex gap-4 flex-wrap">
 
-          <button className="bg-lime-400 text-black px-8 py-4 rounded-xl font-bold hover:scale-105 transition">
-            Download Pass
-          </button>
+          <button
+  onClick={downloadPass}
+  className="bg-lime-400 text-black px-8 py-4 rounded-xl font-bold hover:scale-105 transition"
+>
+  Download Pass
+</button>
 
           <a
             href={`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`}
