@@ -8,6 +8,19 @@ type EarlyPassProps = {
 };
 
 export default function EarlyPass({ data }: EarlyPassProps) {
+  const shareText = encodeURIComponent(
+`🚀 Just claimed my Destonoma Hood Early Supporter Pass!
+
+Building on Robinhood Chain.
+
+🐦 @DestonomaHood
+📢 https://t.me/destonomaHood`
+  );
+
+  const shareUrl = encodeURIComponent(
+    "https://destonomahood.vercel.app"
+  );
+
   return (
     <section className="max-w-7xl mx-auto px-8 pb-24">
 
@@ -80,32 +93,22 @@ export default function EarlyPass({ data }: EarlyPassProps) {
 
         <div className="mt-10 flex flex-wrap gap-4">
 
-  <button
-    className="bg-lime-400 text-black px-8 py-4 rounded-xl font-bold hover:scale-105 transition"
-  >
-    Download Pass
-  </button>
+          <button
+            className="bg-lime-400 text-black px-8 py-4 rounded-xl font-bold hover:scale-105 transition"
+          >
+            Download Pass
+          </button>
 
-  <a
-    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-      `🚀 I just claimed my Early Supporter Pass for Destonoma Hood!
+          <a
+            href={`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white text-black px-8 py-4 rounded-xl font-bold hover:scale-105 transition"
+          >
+            🐦 Share on X
+          </a>
 
-Built on Robinhood Chain.
-
-Join the community:
-https://x.com/DestonomaHood
-https://t.me/destonomaHood
-
-#DestonomaHood #RobinhoodChain #Web3`
-    )}`}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="bg-white text-black px-8 py-4 rounded-xl font-bold hover:scale-105 transition"
-  >
-    🐦 Share on X
-  </a>
-
-</div>
+        </div>
 
       </div>
 
