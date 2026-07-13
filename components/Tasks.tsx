@@ -1,6 +1,9 @@
 export default function Tasks() {
   return (
-    <section className="max-w-7xl mx-auto px-8 pb-24">
+    <section
+  id="quest"
+  className="..."
+>
 
       <div className="mb-10">
         <p className="text-lime-400 uppercase tracking-[4px]">

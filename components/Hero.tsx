@@ -5,7 +5,10 @@ import { motion } from "framer-motion";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden">
+     <section
+  id="home"
+  className="..."
+>
 
 
       {/* Overlay */}

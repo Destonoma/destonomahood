@@ -4,10 +4,12 @@ import { useState } from "react";
 
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import About from "@/components/About";
 import Countdown from "@/components/Countdown";
 import Tasks from "@/components/Tasks";
-import Roadmap from "@/components/Roadmap";
 import ClaimForm from "@/components/ClaimForm";
+import Roadmap from "@/components/Roadmap";
+import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -23,20 +25,25 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#050505] text-white">
 
-      <Navbar />
+      
+    <Navbar />
 
-      <Hero />
+<Hero />
 
-      <Countdown />
+<About />
 
-      <Tasks />
+<Countdown />
+
+<Tasks />
+
+<ClaimForm
+  setPassData={setPassData}
+  setPassImage={setPassImage}
+/>
 
 <Roadmap />
 
-<ClaimForm
-        setPassData={setPassData}
-        setPassImage={setPassImage}
-      />
+<FAQ />
 
       {passImage && (
         <section className="max-w-6xl mx-auto px-8 pb-24">

@@ -29,7 +29,10 @@ export default function ClaimForm({
   const progress = (step / 4) * 100;
 
   return (
-    <section className="max-w-4xl mx-auto px-8 pb-24">
+    <section
+  id="claim"
+  className="scroll-mt-40 max-w-4xl mx-auto mt-32 px-8 pb-24"
+>
 
       <div className="rounded-3xl border border-lime-500/20 bg-zinc-900 p-10">
 
