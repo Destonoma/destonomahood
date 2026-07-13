@@ -12,9 +12,9 @@ type EarlyPassProps = {
 export default function EarlyPass({ data }: EarlyPassProps) {
   const shareOnX = () => {
     const text = encodeURIComponent(
-`🚀 Just claimed my Destonoma Hood Early Supporter Pass!
+`Early Supporter Pass claimed.
 
-Join the Early Supporter Campaign.
+Building the future of Robinhood Chain.
 
 🐦 @DestonomaHood
 📢 https://t.me/destonomaHood`
