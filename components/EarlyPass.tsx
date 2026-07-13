@@ -1,3 +1,5 @@
+"use client";
+
 type EarlyPassProps = {
   data: {
     name: string;
@@ -8,26 +10,32 @@ type EarlyPassProps = {
 };
 
 export default function EarlyPass({ data }: EarlyPassProps) {
-  const shareText = encodeURIComponent(
+  const shareOnX = () => {
+    const text = encodeURIComponent(
 `🚀 Just claimed my Destonoma Hood Early Supporter Pass!
 
 Join the Early Supporter Campaign.
 
 🐦 @DestonomaHood
 📢 https://t.me/destonomaHood`
-  );
+    );
 
-  const shareUrl = encodeURIComponent(
-    "https://destonomahood.vercel.app"
-  );
+    const url = encodeURIComponent(
+      "https://destonomahood.vercel.app"
+    );
+
+    window.open(
+      `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+  };
 
   return (
     <section className="max-w-7xl mx-auto px-8 pb-24">
-
       <div className="rounded-3xl border border-lime-500/20 bg-gradient-to-br from-zinc-900 to-black p-10">
 
         <div className="flex items-center justify-between">
-
           <div>
             <span className="uppercase tracking-[4px] text-lime-400">
               Early Supporter Pass
@@ -41,7 +49,6 @@ Join the Early Supporter Campaign.
           <div className="border border-lime-400 px-5 py-2 rounded-full text-lime-400 font-bold">
             VERIFIED
           </div>
-
         </div>
 
         <div className="grid md:grid-cols-2 gap-10 mt-12">
@@ -95,19 +102,16 @@ Join the Early Supporter Campaign.
             Download Pass
           </button>
 
-          <a
-            href={`https://x.com/intent/post?text=${shareText}&url=${shareUrl}`}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={shareOnX}
             className="bg-white text-black px-8 py-4 rounded-xl font-bold hover:scale-105 transition"
           >
             🐦 Share on X
-          </a>
+          </button>
 
         </div>
 
       </div>
-
     </section>
   );
 }
