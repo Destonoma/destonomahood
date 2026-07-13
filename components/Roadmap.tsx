@@ -81,8 +81,8 @@ const roadmap = [
        return (
     <section
       id="roadmap"
-      className="py-28 bg-[#050505] overflow-hidden"
-    >
+      className="relative py-28 bg-[#050505] overflow-hidden"
+>
       <div className="max-w-[1700px] mx-auto">
 
         <div className="text-center mb-16">
@@ -196,9 +196,10 @@ const roadmap = [
 
     </div>
   );
-})}
-        </div>
+})} 
 
+          </div>
+        </div>
       </div>
 
       {/* Background Glow */}
