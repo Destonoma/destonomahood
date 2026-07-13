@@ -10,26 +10,16 @@ type EarlyPassProps = {
 };
 
 export default function EarlyPass({ data }: EarlyPassProps) {
-  const shareOnX = () => {
-    const text = encodeURIComponent(
-`Early Supporter Pass claimed.
+  const shareText = encodeURIComponent(`🚀 Early Supporter Pass claimed.
 
 Building the future of Robinhood Chain.
 
 🐦 @DestonomaHood
-📢 https://t.me/destonomaHood`
-    );
+📢 https://t.me/destonomaHood`);
 
-    const url = encodeURIComponent(
-      "https://destonomahood.vercel.app"
-    );
-
-    window.open(
-      `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
-  };
+  const shareUrl = encodeURIComponent(
+    "https://destonomahood.vercel.app"
+  );
 
   return (
     <section className="max-w-7xl mx-auto px-8 pb-24">
@@ -87,11 +77,9 @@ Building the future of Robinhood Chain.
           </div>
 
           <div className="flex items-center justify-center">
-
             <div className="w-56 h-56 rounded-3xl border border-lime-500 flex items-center justify-center text-3xl font-black text-lime-400">
               DTM
             </div>
-
           </div>
 
         </div>
@@ -102,12 +90,14 @@ Building the future of Robinhood Chain.
             Download Pass
           </button>
 
-          <button
-            onClick={shareOnX}
+          <a
+            href={`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-white text-black px-8 py-4 rounded-xl font-bold hover:scale-105 transition"
           >
             🐦 Share on X
-          </button>
+          </a>
 
         </div>
 
