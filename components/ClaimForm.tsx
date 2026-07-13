@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { generatePass } from "@/lib/generatePass";
 
 type ClaimFormProps = {
   setPassData: (data: {
@@ -9,15 +10,21 @@ type ClaimFormProps = {
     telegram: string;
     wallet: string;
   }) => void;
+
+  setPassImage: (img: string) => void;
 };
 
-export default function ClaimForm({ setPassData }: ClaimFormProps) {
+export default function ClaimForm({
+  setPassData,
+  setPassImage,
+}: ClaimFormProps) {
   const [step, setStep] = useState(1);
+
   const [name, setName] = useState("");
   const [x, setX] = useState("");
   const [telegram, setTelegram] = useState("");
   const [wallet, setWallet] = useState("");
-const [generated, setGenerated] = useState(false);
+
   const progress = (step / 4) * 100;
 
   return (
@@ -34,10 +41,8 @@ const [generated, setGenerated] = useState(false);
         </h2>
 
         <p className="text-gray-400 mt-4">
-          Complete every step to generate your Early Supporter Pass.
+          Complete every step below.
         </p>
-
-        {/* Progress */}
 
         <div className="mt-10">
 
@@ -47,25 +52,19 @@ const [generated, setGenerated] = useState(false);
           </div>
 
           <div className="w-full h-3 rounded-full bg-black overflow-hidden">
-
             <div
               style={{ width: `${progress}%` }}
-              className="h-full bg-lime-400 transition-all duration-700"
+              className="h-full bg-lime-400 transition-all"
             />
-
           </div>
 
         </div>
-
-        {/* STEP 1 */}
-
-        {step === 1 && (
-
+                {step === 1 && (
           <div className="mt-12">
 
-            <div className="rounded-2xl border border-lime-500/20 p-8 bg-black/30">
+            <div className="rounded-2xl border border-lime-500/20 bg-black/30 p-8">
 
-              <p className="text-lime-400 uppercase tracking-[3px]">
+              <p className="uppercase tracking-[3px] text-lime-400">
                 STEP 01
               </p>
 
@@ -84,9 +83,9 @@ const [generated, setGenerated] = useState(false);
               <button
                 disabled={!name}
                 onClick={() => setStep(2)}
-                className={`mt-8 px-8 py-4 rounded-xl font-bold transition ${
+                className={`mt-8 px-8 py-4 rounded-xl font-bold ${
                   name
-                    ? "bg-lime-400 text-black hover:scale-105"
+                    ? "bg-lime-400 text-black"
                     : "bg-zinc-700 text-gray-500 cursor-not-allowed"
                 }`}
               >
@@ -96,18 +95,14 @@ const [generated, setGenerated] = useState(false);
             </div>
 
           </div>
-
         )}
 
-        {/* STEP 2 */}
-
         {step === 2 && (
-
           <div className="mt-12">
 
-            <div className="rounded-2xl border border-lime-500/20 p-8 bg-black/30">
+            <div className="rounded-2xl border border-lime-500/20 bg-black/30 p-8">
 
-              <p className="text-lime-400 uppercase tracking-[3px]">
+              <p className="uppercase tracking-[3px] text-lime-400">
                 STEP 02
               </p>
 
@@ -119,7 +114,7 @@ const [generated, setGenerated] = useState(false);
                 type="text"
                 value={x}
                 onChange={(e) => setX(e.target.value)}
-                placeholder="@DestonomaHood"
+                placeholder="@username"
                 className="w-full mt-8 rounded-xl bg-black border border-lime-500/20 p-5 outline-none"
               />
 
@@ -135,9 +130,9 @@ const [generated, setGenerated] = useState(false);
                 <button
                   disabled={!x}
                   onClick={() => setStep(3)}
-                  className={`px-8 py-4 rounded-xl font-bold transition ${
+                  className={`px-8 py-4 rounded-xl font-bold ${
                     x
-                      ? "bg-lime-400 text-black hover:scale-105"
+                      ? "bg-lime-400 text-black"
                       : "bg-zinc-700 text-gray-500 cursor-not-allowed"
                   }`}
                 >
@@ -149,125 +144,122 @@ const [generated, setGenerated] = useState(false);
             </div>
 
           </div>
-
         )}
-                {/* STEP 3 */}
-
         {step === 3 && (
+  <div className="mt-12">
 
-          <div className="mt-12">
+    <div className="rounded-2xl border border-lime-500/20 bg-black/30 p-8">
 
-            <div className="rounded-2xl border border-lime-500/20 p-8 bg-black/30">
+      <p className="uppercase tracking-[3px] text-lime-400">
+        STEP 03
+      </p>
 
-              <p className="text-lime-400 uppercase tracking-[3px]">
-                STEP 03
-              </p>
+      <h3 className="text-3xl font-bold mt-3">
+        Telegram Username
+      </h3>
 
-              <h3 className="text-3xl font-bold mt-3">
-                Telegram Username
-              </h3>
+      <input
+        type="text"
+        value={telegram}
+        onChange={(e) => setTelegram(e.target.value)}
+        placeholder="@telegram"
+        className="w-full mt-8 rounded-xl bg-black border border-lime-500/20 p-5 outline-none"
+      />
 
-              <input
-                type="text"
-                value={telegram}
-                onChange={(e) => setTelegram(e.target.value)}
-                placeholder="@destonomahood"
-                className="w-full mt-8 rounded-xl bg-black border border-lime-500/20 p-5 outline-none"
-              />
+      <div className="flex gap-4 mt-8">
 
-              <div className="flex gap-4 mt-8">
+        <button
+          onClick={() => setStep(2)}
+          className="border border-lime-400 px-8 py-4 rounded-xl"
+        >
+          Back
+        </button>
 
-                <button
-                  onClick={() => setStep(2)}
-                  className="border border-lime-400 px-8 py-4 rounded-xl"
-                >
-                  Back
-                </button>
+        <button
+          disabled={!telegram}
+          onClick={() => setStep(4)}
+          className={`px-8 py-4 rounded-xl font-bold ${
+            telegram
+              ? "bg-lime-400 text-black"
+              : "bg-zinc-700 text-gray-500 cursor-not-allowed"
+          }`}
+        >
+          Continue →
+        </button>
 
-                <button
-                  disabled={!telegram}
-                  onClick={() => setStep(4)}
-                  className={`px-8 py-4 rounded-xl font-bold transition ${
-                    telegram
-                      ? "bg-lime-400 text-black hover:scale-105"
-                      : "bg-zinc-700 text-gray-500 cursor-not-allowed"
-                  }`}
-                >
-                  Continue →
-                </button>
+      </div>
 
-              </div>
+    </div>
 
-            </div>
-
-          </div>
-
-        )}
-
-        {/* STEP 4 */}
-
-        {step === 4 && (
-
-          <div className="mt-12">
-
-            <div className="rounded-2xl border border-lime-500/20 p-8 bg-black/30">
-
-              <p className="text-lime-400 uppercase tracking-[3px]">
-                FINAL STEP
-              </p>
-
-              <h3 className="text-3xl font-bold mt-3">
-                Wallet Address
-              </h3>
-
-              <input
-                type="text"
-                value={wallet}
-                onChange={(e) => setWallet(e.target.value)}
-                placeholder="0x..."
-                className="w-full mt-8 rounded-xl bg-black border border-lime-500/20 p-5 outline-none"
-              />
-
-              <div className="flex gap-4 mt-8">
-
-                <button
-                  onClick={() => setStep(3)}
-                  className="border border-lime-400 px-8 py-4 rounded-xl"
-                >
-                  Back
-                </button>
-
-                {!generated && (
-  <button
-    disabled={!wallet}
-    onClick={() => {
-      setPassData({
-        name,
-        x,
-        telegram,
-        wallet,
-      });
-
-      setGenerated(true);
-    }}
-    className={`px-8 py-4 rounded-xl font-bold transition ${
-      wallet
-        ? "bg-lime-400 text-black hover:scale-105"
-        : "bg-zinc-700 text-gray-500 cursor-not-allowed"
-    }`}
-  >
-    🚀 Generate Genesis Pass
-  </button>
+  </div>
 )}
 
-              </div>
+{step === 4 && (
+  <div className="mt-12">
 
-            </div>
+    <div className="rounded-2xl border border-lime-500/20 bg-black/30 p-8">
 
-          </div>
+      <p className="uppercase tracking-[3px] text-lime-400">
+        FINAL STEP
+      </p>
 
-        )}
+      <h3 className="text-3xl font-bold mt-3">
+        Wallet Address
+      </h3>
 
+      <input
+        type="text"
+        value={wallet}
+        onChange={(e) => setWallet(e.target.value)}
+        placeholder="0x..."
+        className="w-full mt-8 rounded-xl bg-black border border-lime-500/20 p-5 outline-none"
+      />
+
+      <div className="flex gap-4 mt-8">
+
+        <button
+          onClick={() => setStep(3)}
+          className="border border-lime-400 px-8 py-4 rounded-xl"
+        >
+          Back
+        </button>
+
+        <button
+          disabled={!wallet}
+          onClick={async () => {
+
+            setPassData({
+              name,
+              x,
+              telegram,
+              wallet,
+            });
+
+            const image = await generatePass({
+              name,
+              x,
+              wallet,
+              passNumber: "#000001",
+            });
+
+            setPassImage(image);
+
+          }}
+          className={`px-8 py-4 rounded-xl font-bold ${
+            wallet
+              ? "bg-lime-400 text-black"
+              : "bg-zinc-700 text-gray-500 cursor-not-allowed"
+          }`}
+        >
+          🚀 Generate Genesis Pass
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+)}
       </div>
 
     </section>

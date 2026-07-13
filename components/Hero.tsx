@@ -7,16 +7,6 @@ export default function Hero() {
   return (
     <section className="relative overflow-hidden">
 
-      {/* Background */}
-      <div className="absolute inset-0">
-        <Image
-          src="/images/hero.jpg"
-          alt="DTM Hero"
-          fill
-          priority
-          className="object-cover opacity-25"
-        />
-      </div>
 
       {/* Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/80 to-[#050505]" />
