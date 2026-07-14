@@ -1,4 +1,17 @@
-export default function Tasks() {
+"use client";
+
+import { Dispatch, SetStateAction, useState } from "react";
+
+type TasksProps = {
+  xp: number;
+  setXp: Dispatch<SetStateAction<number>>;
+};
+
+export default function Tasks({ xp, setXp }: TasksProps) {
+  const [followDone, setFollowDone] = useState(false);
+  const [likeDone, setLikeDone] = useState(false);
+  const [repostDone, setRepostDone] = useState(false);
+  const [telegramDone, setTelegramDone] = useState(false);
   return (
     <section
   id="quest"
@@ -40,9 +53,15 @@ export default function Tasks() {
   href="https://x.com/DestonomaHood"
   target="_blank"
   rel="noopener noreferrer"
+  onClick={() => {
+    if (!followDone) {
+      setXp((prev) => prev + 700);
+      setFollowDone(true);
+    }
+  }}
   className="inline-block mt-8 bg-lime-400 text-black px-6 py-3 rounded-xl font-bold hover:scale-105 transition"
 >
-  Follow
+  {followDone ? "✅ Completed" : "Follow (+700 XP)"}
 </a>
 
         </div>
@@ -63,13 +82,19 @@ export default function Tasks() {
           </p>
 
           <a
-            href="LINK_POST_X"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block mt-8 bg-lime-400 text-black px-6 py-3 rounded-xl font-bold hover:scale-105 transition"
-          >
-            Like
-          </a>
+  href="LINK_POST_X"
+  target="_blank"
+  rel="noopener noreferrer"
+  onClick={() => {
+    if (!likeDone) {
+      setXp((prev) => prev + 500);
+      setLikeDone(true);
+    }
+  }}
+  className="inline-block mt-8 bg-lime-400 text-black px-6 py-3 rounded-xl font-bold hover:scale-105 transition"
+>
+  {likeDone ? "✅ Completed" : "Like (+500 XP)"}
+</a>
 
         </div>
 
@@ -89,13 +114,19 @@ export default function Tasks() {
           </p>
 
           <a
-            href="LINK_POST_X"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block mt-8 bg-lime-400 text-black px-6 py-3 rounded-xl font-bold hover:scale-105 transition"
-          >
-            Repost
-          </a>
+  href="LINK_POST_X"
+  target="_blank"
+  rel="noopener noreferrer"
+  onClick={() => {
+    if (!repostDone) {
+      setXp((prev) => prev + 1000);
+      setRepostDone(true);
+    }
+  }}
+  className="inline-block mt-8 bg-lime-400 text-black px-6 py-3 rounded-xl font-bold hover:scale-105 transition"
+>
+  {repostDone ? "✅ Completed" : "Repost (+1000 XP)"}
+</a>
 
         </div>
 
@@ -114,13 +145,19 @@ export default function Tasks() {
             Join the Destonoma Hood Telegram community.
           </p>
 
-          <a
+         <a
   href="https://t.me/destonomaHood"
   target="_blank"
   rel="noopener noreferrer"
+  onClick={() => {
+    if (!telegramDone) {
+      setXp((prev) => prev + 800);
+      setTelegramDone(true);
+    }
+  }}
   className="inline-block mt-8 bg-lime-400 text-black px-6 py-3 rounded-xl font-bold hover:scale-105 transition"
 >
-  Join
+  {telegramDone ? "✅ Completed" : "Join (+800 XP)"}
 </a>
 
         </div>

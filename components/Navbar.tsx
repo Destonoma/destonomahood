@@ -4,7 +4,11 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 
-export default function Navbar() {
+type NavbarProps = {
+  xp: number;
+};
+
+export default function Navbar({ xp }: NavbarProps) {
   const [open, setOpen] = useState(false);
 
   const scrollToSection = (id: string) => {
@@ -47,10 +51,19 @@ export default function Navbar() {
           <button onClick={() => scrollToSection("faq")} className="hover:text-lime-400">FAQ</button>
         </nav>
 
-        {/* Desktop Button */}
-        <button className="hidden md:block bg-lime-400 text-black font-bold px-6 py-3 rounded-xl hover:scale-105 transition">
-          Join Now
-        </button>
+        {/* Desktop Right */}
+<div className="hidden md:flex items-center gap-4">
+
+  <div className="flex items-center px-4 py-2 rounded-xl border border-lime-500/30 bg-zinc-900/80">
+    <span className="text-yellow-400 mr-2">⭐</span>
+    <span className="font-bold text-white">XP {xp}</span>
+  </div>
+
+  <button className="bg-lime-400 text-black font-bold px-6 py-3 rounded-xl hover:scale-105 transition">
+    Join Now
+  </button>
+
+</div>
 
         {/* Mobile Menu Button */}
         <button

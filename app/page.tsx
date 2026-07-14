@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
@@ -23,10 +23,21 @@ export default function Home() {
   const [passImage, setPassImage] = useState("");
   const [downloaded, setDownloaded] = useState(false);
 
+  const [xp, setXp] = useState(() => {
+    if (typeof window === "undefined") return 0;
+
+    const saved = localStorage.getItem("dtm-xp");
+    return saved ? Number(saved) : 0;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("dtm-xp", xp.toString());
+  }, [xp]);
+
   return (
     <main className="min-h-screen bg-[#050505] text-white">
 
-      <Navbar />
+      <Navbar xp={xp} />
 
       <Hero />
 
@@ -34,7 +45,10 @@ export default function Home() {
 
       <Countdown />
 
-      <Tasks />
+      <Tasks
+  xp={xp}
+  setXp={setXp}
+/>
 
       <ClaimForm
   setPassData={setPassData}
