@@ -2,15 +2,15 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://destonomahood.vercel.app"),
+
   title: "Destonoma Hood",
-  description:
-    "Join the Early Supporter Campaign built on Robinhood Chain.",
+  description: "Join the Early Supporter Campaign built on Robinhood Chain.",
 
   openGraph: {
     title: "Destonoma Hood",
-    description:
-      "Join the Early Supporter Campaign built on Robinhood Chain.",
-    url: "https://destonomahood.xyz",
+    description: "Join the Early Supporter Campaign built on Robinhood Chain.",
+    url: "https://destonomahood.vercel.app",
     siteName: "Destonoma Hood",
     images: [
       {
@@ -25,17 +25,16 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Destonoma Hood",
-    description:
-      "Join the Early Supporter Campaign built on Robinhood Chain.",
+    description: "Join the Early Supporter Campaign built on Robinhood Chain.",
     images: ["/images/banner.jpg"],
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body>{children}</body>
