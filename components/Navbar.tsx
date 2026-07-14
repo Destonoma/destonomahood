@@ -65,13 +65,24 @@ export default function Navbar({ xp }: NavbarProps) {
 
 </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden text-white"
-          onClick={() => setOpen(!open)}
-        >
-          {open ? <X size={32} /> : <Menu size={32} />}
-        </button>
+{/* Mobile Right */}
+<div className="md:hidden flex items-center gap-3">
+
+  <div className="flex items-center px-3 py-2 rounded-xl border border-lime-500/30 bg-zinc-900/80">
+    <span className="text-yellow-400 mr-1">⭐</span>
+    <span className="text-sm font-bold text-white">
+      XP {xp}
+    </span>
+  </div>
+
+  <button
+    className="text-white"
+    onClick={() => setOpen(!open)}
+  >
+    {open ? <X size={32} /> : <Menu size={32} />}
+  </button>
+
+</div>
       </div>
 
       {/* Mobile Menu */}
