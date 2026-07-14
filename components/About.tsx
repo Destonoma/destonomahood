@@ -80,13 +80,21 @@ export default function About() {
 
   <div className="flex gap-5 mt-10">
 
-    <button className="bg-lime-400 text-black px-8 py-4 rounded-2xl font-bold hover:scale-105 transition">
-      Explore Vision
-    </button>
+    <a
+  href="#roadmap"
+  className="bg-lime-400 text-black px-8 py-4 rounded-xl font-bold hover:scale-105 transition inline-flex items-center justify-center"
+>
+  Explore Vision
+</a>
 
-    <button className="border border-lime-400 text-lime-400 px-8 py-4 rounded-2xl font-bold hover:bg-lime-400 hover:text-black transition">
-      Join Community
-    </button>
+    <a
+  href="https://t.me/destonomahood"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="border border-lime-400 px-8 py-4 rounded-xl hover:bg-lime-400 hover:text-black transition inline-flex items-center justify-center"
+>
+  Join Community
+</a>
 
   </div>
 

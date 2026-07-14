@@ -25,6 +25,7 @@ export default function ClaimForm({
   const [x, setX] = useState("");
   const [telegram, setTelegram] = useState("");
   const [wallet, setWallet] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const progress = (step / 4) * 100;
 
@@ -231,7 +232,9 @@ export default function ClaimForm({
         <button
   disabled={!wallet}
   onClick={async () => {
-    try {
+  setLoading(true);
+
+  try {
       const claim = await createClaim({
         name,
         twitter_username: x,
@@ -254,8 +257,18 @@ export default function ClaimForm({
         wallet,
         passNumber,
       });
+      await new Promise((resolve) => setTimeout(resolve, 2500));
 
       setPassImage(image);
+
+setLoading(false);
+
+setTimeout(() => {
+  document.getElementById("generated-pass")?.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
+}, 300);
     } catch (err: any) {
       alert(err.message || "Claim gagal");
     }
@@ -266,7 +279,7 @@ export default function ClaimForm({
       : "bg-zinc-700 text-gray-500 cursor-not-allowed"
   }`}
 >
-  🚀 Generate Genesis Pass
+  {loading ? "⏳ Generating..." : "🚀 Generate Genesis Pass"}
 </button>
 
       </div>

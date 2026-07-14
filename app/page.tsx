@@ -21,57 +21,91 @@ export default function Home() {
   });
 
   const [passImage, setPassImage] = useState("");
+  const [downloaded, setDownloaded] = useState(false);
 
   return (
     <main className="min-h-screen bg-[#050505] text-white">
 
-      
-    <Navbar />
+      <Navbar />
 
-<Hero />
+      <Hero />
 
-<About />
+      <About />
 
-<Countdown />
+      <Countdown />
 
-<Tasks />
+      <Tasks />
 
-<ClaimForm
+      <ClaimForm
   setPassData={setPassData}
-  setPassImage={setPassImage}
+  setPassImage={(img) => {
+    setPassImage(img);
+    setDownloaded(false);
+  }}
 />
 
-<Roadmap />
-
-<FAQ />
-
       {passImage && (
-        <section className="max-w-6xl mx-auto px-8 pb-24">
+        <section
+  id="generated-pass"
+  className="max-w-6xl mx-auto pt-40 px-8 pb-24"
+        >
 
           <h2 className="text-5xl font-black text-center mb-10">
             🎉 Your Early Supporter Pass
           </h2>
 
           <img
-            src={passImage}
-            alt="Pass"
-            className="mx-auto rounded-3xl border border-lime-500 max-w-md"
-          />
+  id="pass-image"
+  src={passImage}
+  alt="Pass"
+  className="mx-auto rounded-3xl border border-lime-500 max-w-md"
+/>
 
           <div className="flex justify-center gap-4 mt-10">
 
-            <a
-              href={passImage}
-              download="DestonomaHood-EarlySupporterPass.png"
-              className="bg-lime-400 text-black px-8 py-4 rounded-xl font-bold"
-            >
-              Download PNG
-            </a>
+  {!downloaded ? (
+    <a
+      href={passImage}
+      download="DestonomaHood-EarlySupporterPass.png"
+      onClick={() => {
+  setTimeout(() => {
+    setDownloaded(true);
+  }, 1000);
+}}
+      className="bg-lime-400 text-black px-8 py-4 rounded-xl font-bold hover:scale-105 transition"
+    >
+      ⬇ Download PNG
+    </a>
+  ) : (
+    <a
+      href={`https://x.com/intent/post?text=${encodeURIComponent(
+        `🚀 Just claimed my Destonoma Genesis Pass.
 
-          </div>
+Destonoma is building the next gaming ecosystem on Robinhood Chain.
+
+Join early and become part of the community.
+
+👇
+https://destonomahood.vercel.app/
+
+#RobinhoodChain #Destonomahood`
+      )}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="bg-black border border-lime-400 text-lime-400 px-8 py-4 rounded-xl font-bold hover:bg-lime-400 hover:text-black transition"
+    >
+      🐦 Post on X
+    </a>
+  )}
+
+</div>
 
         </section>
       )}
+
+      <Roadmap />
+
+      <FAQ />
 
       <Footer />
 

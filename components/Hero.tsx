@@ -2,8 +2,17 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { getClaimCount } from "@/lib/stats";
 
 export default function Hero() {
+
+  const [claimCount, setClaimCount] = useState(0);
+
+  useEffect(() => {
+    getClaimCount().then(setClaimCount);
+  }, []);
+
   return (
      <section
   id="home"
@@ -49,15 +58,58 @@ export default function Hero() {
 
             <div className="flex gap-5 mt-10">
 
-              <button className="bg-lime-400 text-black px-8 py-4 rounded-xl font-bold hover:scale-105 transition">
-                Claim Your Spot
-              </button>
+              <a
+  href="#claim"
+  className="bg-lime-400 text-black px-8 py-4 rounded-xl font-bold hover:scale-105 transition inline-flex items-center justify-center"
+>
+  Claim Your Spot
+</a>
 
-              <button className="border border-lime-400 px-8 py-4 rounded-xl hover:bg-lime-400 hover:text-black transition">
-                Learn More
-              </button>
+              <a
+  href="#about"
+  className="border border-lime-400 px-8 py-4 rounded-xl hover:bg-lime-400 hover:text-black transition inline-flex items-center justify-center"
+>
+  Learn More
+</a>
 
             </div>
+            <div className="grid grid-cols-3 gap-6 mt-14">
+
+  <div className="rounded-2xl border border-lime-500/20 bg-zinc-900/60 p-6">
+    <h3 className="text-5xl font-black text-lime-400">
+      {claimCount}
+    </h3>
+
+    <p className="mt-3 text-gray-400">
+      Genesis Pass
+    </p>
+
+    <p className="text-gray-500 text-sm">
+      Claimed
+    </p>
+  </div>
+
+  <div className="rounded-2xl border border-lime-500/20 bg-zinc-900/60 p-6">
+    <h3 className="text-3xl font-black text-lime-400">
+      Soon
+    </h3>
+
+    <p className="mt-3 text-gray-400">
+      Gaming Hub
+    </p>
+  </div>
+
+  <div className="rounded-2xl border border-lime-500/20 bg-zinc-900/60 p-6">
+    <h3 className="text-2xl font-black text-lime-400">
+      Robinhood
+    </h3>
+
+    <p className="mt-3 text-gray-400">
+      Ecosystem
+    </p>
+  </div>
+
+</div>
 
           </motion.div>
 
