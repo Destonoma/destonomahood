@@ -5,6 +5,7 @@ export async function createClaim(data: {
   twitter_username: string;
   telegram: string;
   wallet: string;
+  referred_by?: string;
 }) {
   // cek wallet sudah pernah claim atau belum
   const { data: existing } = await supabase
@@ -17,6 +18,30 @@ export async function createClaim(data: {
     throw new Error("Wallet already claimed");
   }
 
+  // cek referral code
+  let refWallet: string | null = null;
+
+  if (data.referred_by) {
+    const { data: refUser } = await supabase
+      .from("claims")
+      .select("wallet")
+      .eq(
+  "pass_number",
+  Number(data.referred_by.replace("DTM-", ""))
+)
+      .maybeSingle();
+
+    if (!refUser) {
+      throw new Error("Invalid Referral Code");
+    }
+
+    if (refUser.wallet === data.wallet) {
+      throw new Error("You cannot use your own referral code");
+    }
+
+    refWallet = refUser.wallet;
+  }
+
   // simpan claim
   const { data: claim, error } = await supabase
     .from("claims")
@@ -25,6 +50,7 @@ export async function createClaim(data: {
       twitter_username: data.twitter_username,
       telegram: data.telegram,
       wallet: data.wallet,
+      referred_by: data.referred_by || null,
     })
     .select()
     .single();
@@ -34,10 +60,34 @@ export async function createClaim(data: {
   }
 
   // buat data quest pertama kali
-await supabase.from("user_quests").upsert({
-  wallet: data.wallet,
-  xp: 0,
-});
+  const { error: questError } = await supabase
+    .from("user_quests")
+    .upsert({
+      wallet: data.wallet,
+      xp: 0,
+    });
 
-return claim;
+  if (questError) {
+    throw questError;
+  }
+
+  // bonus referral
+  if (refWallet) {
+    const { data: quest } = await supabase
+      .from("user_quests")
+      .select("xp")
+      .eq("wallet", refWallet)
+      .single();
+
+    if (quest) {
+      await supabase
+        .from("user_quests")
+        .update({
+          xp: quest.xp + 1000,
+        })
+        .eq("wallet", refWallet);
+    }
+  }
+
+  return claim;
 }

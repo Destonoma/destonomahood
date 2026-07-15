@@ -25,7 +25,8 @@ export default function ClaimForm({
   const [x, setX] = useState("");
   const [telegram, setTelegram] = useState("");
   const [wallet, setWallet] = useState("");
-  const [loading, setLoading] = useState(false);
+const [refCode, setRefCode] = useState("");
+const [loading, setLoading] = useState(false);
 
   const progress = (step / 4) * 100;
 
@@ -84,7 +85,13 @@ export default function ClaimForm({
                 placeholder="Your Name"
                 className="w-full mt-8 rounded-xl bg-black border border-lime-500/20 p-5 outline-none"
               />
-
+               <input
+  type="text"
+  value={refCode}
+  onChange={(e) => setRefCode(e.target.value.toUpperCase())}
+  placeholder="Referral Code (Optional)"
+  className="w-full mt-4 rounded-xl bg-black border border-lime-500/20 p-5 outline-none"
+/>
               <button
                 disabled={!name}
                 onClick={() => setStep(2)}
@@ -236,11 +243,12 @@ export default function ClaimForm({
 
   try {
       const claim = await createClaim({
-        name,
-        twitter_username: x,
-        telegram,
-        wallet,
-      });
+  name,
+  twitter_username: x,
+  telegram,
+  wallet,
+  referred_by: refCode.trim() || undefined,
+});
       localStorage.setItem("dtm-wallet", wallet);
 
       setPassData({
@@ -253,14 +261,18 @@ export default function ClaimForm({
       const passNumber = `DTM-${String(claim.pass_number).padStart(6, "0")}`;
 
       const image = await generatePass({
-        name,
-        x,
-        wallet,
-        passNumber,
-      });
-      await new Promise((resolve) => setTimeout(resolve, 2500));
+  name,
+  x,
+  wallet,
+  passNumber,
+});
 
-      setPassImage(image);
+await new Promise((resolve) => setTimeout(resolve, 2500));
+
+setPassImage(image);
+
+localStorage.setItem("dtm-pass-image", image);
+localStorage.setItem("dtm-claimed", "true");
 
 setLoading(false);
 

@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
+import { RotateCw } from "lucide-react";
+import { getQuest } from "@/lib/quests";
 
 type NavbarProps = {
   xp: number;
@@ -10,6 +12,31 @@ type NavbarProps = {
 
 export default function Navbar({ xp }: NavbarProps) {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+async function refreshXP() {
+  const wallet = localStorage.getItem("dtm-wallet");
+
+  if (!wallet) return;
+
+  setLoading(true);
+
+  try {
+    const quest = await getQuest(wallet);
+
+    if (quest) {
+      localStorage.setItem("dtm-xp", quest.xp.toString());
+
+      window.dispatchEvent(
+        new CustomEvent("xp-updated", {
+          detail: quest.xp,
+        })
+      );
+    }
+  } finally {
+    setLoading(false);
+  }
+}
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -54,10 +81,26 @@ export default function Navbar({ xp }: NavbarProps) {
         {/* Desktop Right */}
 <div className="hidden md:flex items-center gap-4">
 
-  <div className="flex items-center px-4 py-2 rounded-xl border border-lime-500/30 bg-zinc-900/80">
-    <span className="text-yellow-400 mr-2">⭐</span>
-    <span className="font-bold text-white">XP {xp}</span>
-  </div>
+  <div className="flex items-center gap-3 px-4 py-2 rounded-xl border border-lime-500/30 bg-zinc-900/80">
+
+  <span className="text-yellow-400">⭐</span>
+
+  <span className="font-bold text-white">
+    XP {xp}
+  </span>
+
+  <button
+    onClick={refreshXP}
+    disabled={loading}
+    className="text-lime-400 hover:text-white transition"
+  >
+    <RotateCw
+      size={18}
+      className={loading ? "animate-spin" : ""}
+    />
+  </button>
+
+</div>
 
   <button className="bg-lime-400 text-black font-bold px-6 py-3 rounded-xl hover:scale-105 transition">
     Join Now
