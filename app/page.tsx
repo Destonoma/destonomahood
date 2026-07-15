@@ -11,6 +11,7 @@ import ClaimForm from "@/components/ClaimForm";
 import Roadmap from "@/components/Roadmap";
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
+import Marquee from "@/components/Marquee";
 
 export default function Home() {
   const [passData, setPassData] = useState({
@@ -62,6 +63,9 @@ useEffect(() => {
 }, []);
     return (
     <main className="min-h-screen bg-[#050505] text-white">
+
+      <Marquee />
+      
       <Navbar xp={xp} />
 
       <Hero />
