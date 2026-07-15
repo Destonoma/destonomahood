@@ -33,5 +33,11 @@ export async function createClaim(data: {
     throw error;
   }
 
-  return claim;
+  // buat data quest pertama kali
+await supabase.from("user_quests").upsert({
+  wallet: data.wallet,
+  xp: 0,
+});
+
+return claim;
 }

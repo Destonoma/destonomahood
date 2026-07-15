@@ -1,6 +1,7 @@
 "use client";
 
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { completeTask, getQuest } from "@/lib/quests";
 
 type TasksProps = {
   xp: number;
@@ -10,19 +11,108 @@ type TasksProps = {
 export default function Tasks({ xp, setXp }: TasksProps) {
   const [followDone, setFollowDone] = useState(false);
   const [followCountdown, setFollowCountdown] = useState(0);
+
   const [likeDone, setLikeDone] = useState(false);
   const [likeCountdown, setLikeCountdown] = useState(0);
+
   const [repostDone, setRepostDone] = useState(false);
   const [repostCountdown, setRepostCountdown] = useState(0);
+
   const [telegramDone, setTelegramDone] = useState(false);
   const [telegramCountdown, setTelegramCountdown] = useState(0);
+
+  const wallet =
+    typeof window !== "undefined"
+      ? localStorage.getItem("dtm-wallet")
+      : null;
+      useEffect(() => {
+  async function loadQuest() {
+    if (!wallet) return;
+
+    try {
+      const quest = await getQuest(wallet);
+
+      if (!quest) return;
+
+      setXp(quest.xp);
+      setFollowDone(quest.follow_done);
+      setLikeDone(quest.like_done);
+      setRepostDone(quest.repost_done);
+      setTelegramDone(quest.telegram_done);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  loadQuest();
+}, [wallet, setXp]);
+
+  async function finishFollow() {
+    if (!wallet) return;
+
+    try {
+      const quest = await completeTask(wallet, "follow", 700);
+
+      if (quest) {
+        setXp(quest.xp);
+        setFollowDone(true);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function finishLike() {
+    if (!wallet) return;
+
+    try {
+      const quest = await completeTask(wallet, "like", 500);
+
+      if (quest) {
+        setXp(quest.xp);
+        setLikeDone(true);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function finishRepost() {
+    if (!wallet) return;
+
+    try {
+      const quest = await completeTask(wallet, "repost", 1000);
+
+      if (quest) {
+        setXp(quest.xp);
+        setRepostDone(true);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function finishTelegram() {
+    if (!wallet) return;
+
+    try {
+      const quest = await completeTask(wallet, "telegram", 800);
+
+      if (quest) {
+        setXp(quest.xp);
+        setTelegramDone(true);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
     <section
       id="quest"
-      className="..."
+      className="max-w-7xl mx-auto px-8 py-32"
     >
-      <div className="mb-10">
+      <div className="mb-12">
         <p className="text-lime-400 uppercase tracking-[4px]">
           Complete Tasks
         </p>
@@ -66,8 +156,7 @@ export default function Tasks({ xp, setXp }: TasksProps) {
                 setFollowCountdown((prev) => {
                   if (prev <= 1) {
                     clearInterval(timer);
-                    setXp((xp) => xp + 700);
-                    setFollowDone(true);
+                    finishFollow();
                     return 0;
                   }
 
@@ -85,9 +174,8 @@ export default function Tasks({ xp, setXp }: TasksProps) {
           </a>
 
         </div>
-
-        {/* Like */}
-                <div className="rounded-3xl border border-lime-500/20 bg-zinc-900 p-8">
+                {/* Like */}
+        <div className="rounded-3xl border border-lime-500/20 bg-zinc-900 p-8">
 
           <span className="text-lime-400 text-sm uppercase">
             Task 02
@@ -106,29 +194,29 @@ export default function Tasks({ xp, setXp }: TasksProps) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => {
-  if (likeDone || likeCountdown > 0) return;
+              if (likeDone || likeCountdown > 0) return;
 
-  setLikeCountdown(30);
+              setLikeCountdown(30);
 
-  const timer = setInterval(() => {
-    setLikeCountdown((prev) => {
-      if (prev <= 1) {
-        clearInterval(timer);
-        setXp((xp) => xp + 500);
-        setLikeDone(true);
-        return 0;
-      }
-      return prev - 1;
-    });
-  }, 1000);
-}}
+              const timer = setInterval(() => {
+                setLikeCountdown((prev) => {
+                  if (prev <= 1) {
+                    clearInterval(timer);
+                    finishLike();
+                    return 0;
+                  }
+
+                  return prev - 1;
+                });
+              }, 1000);
+            }}
             className="inline-block mt-8 bg-lime-400 text-black px-6 py-3 rounded-xl font-bold hover:scale-105 transition"
           >
             {likeDone
-  ? "✅ Completed (+500 XP)"
-  : likeCountdown > 0
-  ? `Opening X... ${likeCountdown}s`
-  : "Like (+500 XP)"}
+              ? "✅ Completed (+500 XP)"
+              : likeCountdown > 0
+              ? `Opening X... ${likeCountdown}s`
+              : "Like (+500 XP)"}
           </a>
 
         </div>
@@ -153,35 +241,33 @@ export default function Tasks({ xp, setXp }: TasksProps) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => {
-  if (repostDone || repostCountdown > 0) return;
+              if (repostDone || repostCountdown > 0) return;
 
-  setRepostCountdown(30);
+              setRepostCountdown(30);
 
-  const timer = setInterval(() => {
-    setRepostCountdown((prev) => {
-      if (prev <= 1) {
-        clearInterval(timer);
-        setXp((xp) => xp + 1000);
-        setRepostDone(true);
-        return 0;
-      }
+              const timer = setInterval(() => {
+                setRepostCountdown((prev) => {
+                  if (prev <= 1) {
+                    clearInterval(timer);
+                    finishRepost();
+                    return 0;
+                  }
 
-      return prev - 1;
-    });
-  }, 1000);
-}}
+                  return prev - 1;
+                });
+              }, 1000);
+            }}
             className="inline-block mt-8 bg-lime-400 text-black px-6 py-3 rounded-xl font-bold hover:scale-105 transition"
           >
             {repostDone
-  ? "✅ Completed (+1000 XP)"
-  : repostCountdown > 0
-  ? `Opening X... ${repostCountdown}s`
-  : "Repost (+1000 XP)"}
+              ? "✅ Completed (+1000 XP)"
+              : repostCountdown > 0
+              ? `Opening X... ${repostCountdown}s`
+              : "Repost (+1000 XP)"}
           </a>
 
         </div>
-
-        {/* Telegram */}
+                {/* Telegram */}
         <div className="rounded-3xl border border-lime-500/20 bg-zinc-900 p-8">
 
           <span className="text-lime-400 text-sm uppercase">
@@ -201,36 +287,34 @@ export default function Tasks({ xp, setXp }: TasksProps) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => {
-  if (telegramDone || telegramCountdown > 0) return;
+              if (telegramDone || telegramCountdown > 0) return;
 
-  setTelegramCountdown(30);
+              setTelegramCountdown(30);
 
-  const timer = setInterval(() => {
-    setTelegramCountdown((prev) => {
-      if (prev <= 1) {
-        clearInterval(timer);
-        setXp((xp) => xp + 800);
-        setTelegramDone(true);
-        return 0;
-      }
+              const timer = setInterval(() => {
+                setTelegramCountdown((prev) => {
+                  if (prev <= 1) {
+                    clearInterval(timer);
+                    finishTelegram();
+                    return 0;
+                  }
 
-      return prev - 1;
-    });
-  }, 1000);
-}}
+                  return prev - 1;
+                });
+              }, 1000);
+            }}
             className="inline-block mt-8 bg-lime-400 text-black px-6 py-3 rounded-xl font-bold hover:scale-105 transition"
           >
             {telegramDone
-  ? "✅ Completed (+800 XP)"
-  : telegramCountdown > 0
-  ? `Opening Telegram... ${telegramCountdown}s`
-  : "Join (+800 XP)"}
+              ? "✅ Completed (+800 XP)"
+              : telegramCountdown > 0
+              ? `Opening Telegram... ${telegramCountdown}s`
+              : "Join (+800 XP)"}
           </a>
 
         </div>
 
       </div>
-
     </section>
   );
 }

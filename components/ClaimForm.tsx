@@ -241,6 +241,7 @@ export default function ClaimForm({
         telegram,
         wallet,
       });
+      localStorage.setItem("dtm-wallet", wallet);
 
       setPassData({
         name,
